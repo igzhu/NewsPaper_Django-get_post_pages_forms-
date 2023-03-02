@@ -1,4 +1,9 @@
   # NewsPaper_Django-get_post_pages_forms  
+  # NewsPaper_Django_Views_and_Templates 
+
+ Проект NewsPaper: добавлены новое приложение 'news', несколько Views (использованы generics),
+ 
+ templates, templatetags с полбзовательским фильтром. Помимо этого применены встроенные фильтры Django.
 
 Проект NewsPaper дополнен формами поиска, добавления, редактирования и удаления статей и постов.
 Django-filter - установка и использование. Формы на основе ModelForm.
