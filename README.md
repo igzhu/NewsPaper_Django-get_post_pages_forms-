@@ -6,6 +6,6 @@
  
  Django-filter - установка и использование. Формы на основе ModelForm.
  
-========================================================================================
+===========================================================================
   NewsPaper project has been replenishe with search, add, edit and delete forms. They are developed 
   by means of Django-filter package and ModelForm django class.
