@@ -1,5 +1,4 @@
   # NewsPaper_Django-get_post_pages_forms  
-  # NewsPaper_Django_Views_and_Templates 
 
  Проект NewsPaper: добавлены новое приложение 'news', несколько Views (использованы generics),
  
