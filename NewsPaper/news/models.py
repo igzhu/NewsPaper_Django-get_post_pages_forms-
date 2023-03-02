@@ -38,11 +38,10 @@ post_types = [(news, 'новость'),
 
 
 class Post(models.Model):
-    postAuthor = models.ForeignKey(Author, on_delete=models.CASCADE)
+    postAuthor = models.ForeignKey(Author, on_delete=models.CASCADE,)
     postType = models.CharField(max_length=4, choices=post_types, default=news)
     postDatetime = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category, through='PostCategory', related_name='posts',)
-    #category = models.ManyToManyField(Category, through='PostCategory',) # related_name='posts',)
     head = models.CharField(max_length=124)
     postText = models.TextField()
     postRate = models.SmallIntegerField(default=0)
@@ -62,6 +61,12 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.head.title()[:18]}: {self.postText[:20]}'
+
+    def get_absolute_url(self):
+        return f'/posts/{self.id}'
+
+    def __str__(self):
+        return f'{self.get_postType_display()}'
 
 
 class PostCategory(models.Model):
