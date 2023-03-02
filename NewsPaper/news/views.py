@@ -39,6 +39,8 @@ class PostSearch(ListView):
     model = Post
     template_name = 'post_search.html'
     context_object_name = 'posts'
+    #form_class = PostForm
+    #form_class = PostFilter
     queryset = Post.objects.order_by('-postDatetime')
     paginate_by = 10
 

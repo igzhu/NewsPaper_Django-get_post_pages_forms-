@@ -6,8 +6,46 @@
 {% block content %}
 
 <form method="GET">
-    {{ filter.form.as_p}}
-    <input type="submit" value="Найти">
+<!--     {{ filter.form.as_p}} -->
+<table>
+    <thead>
+        <th>
+            Дата позже чем:
+        </th>
+        <th>
+            Заголовок содержит:
+        </th>
+        <th>
+            Имя автора содержит:
+        </th>
+    </thead>
+    {%  for fi in filter.form %}
+
+        <td>
+            {{ fi }}
+        </td>
+
+    {% endfor %}
+</table>
+
+
+ <!--        <div>
+           {{ filter.form.postDatetime.errors }}
+           <label for="{{ filter.form.postDatetime.id_for_label }}">Дата позже чем:</label>
+           {{ filter.form.postDatetime }}
+        </div>
+        <div>
+           {{ filter.form.head.errors }}
+           <label for="{{ filter.form.head.id_for_label }}">Заголовок содержит:</label>
+           {{ filter.form.head }}
+        </div>
+        <div>
+           {{ filter.form.postAuthor__authorName__username.errors }}
+           <label for="{{ filter.form.postAuthor__authorName__username.id_for_label }}">Имя автора содержит:</label>
+           {{ filter.form.postAuthor__authorName__username }}
+        </div>   -->
+
+        <input type="submit" value="Найти">
 </form>
 
 <table>
