@@ -12,6 +12,7 @@ class PostsList(ListView):
     model = Post
     template_name = 'posts.html'
     context_object_name = 'posts'
+    form_class = PostForm
     queryset = Post.objects.order_by('-postDatetime')
     paginate_by = 10
 
