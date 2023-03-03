@@ -23,6 +23,9 @@ class Author(models.Model):
         self.authorRate = result_rate
         self.save()
 
+        def __str__(self):
+            return f'{self.authorName.username}'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)

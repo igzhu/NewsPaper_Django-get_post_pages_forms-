@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.conf import settings
+from django.shortcuts import redirect
 
 from .models import Post, Category, User
 from .filters import PostFilter
@@ -51,19 +55,21 @@ class PostSearch(ListView):
         return context
 
 
-class PostAdd(CreateView):
+class PostAdd(LoginRequiredMixin, CreateView):
     template_name = 'news/post_add.html'
     #context_object_name = 'posts'
     form_class = PostForm
 
-class PostEdit(UpdateView):
+class PostEdit(LoginRequiredMixin, UpdateView):
     template_name = 'news/post_add.html'
     form_class = PostForm
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
 
-class PostDelete(DeleteView):
+class PostDelete(LoginRequiredMixin, DeleteView):
     template_name = 'news/post_delete.html'
     queryset = Post.objects.all()
     success_url = '/posts/'
