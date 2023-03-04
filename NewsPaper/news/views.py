@@ -63,8 +63,8 @@ class PostAdd(LoginRequiredMixin, CreateView):
 class PostEdit(LoginRequiredMixin, UpdateView):
     template_name = 'news/post_add.html'
     form_class = PostForm
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
+    #login_url = '/login/'
+    #redirect_field_name = 'redirect_to'
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
