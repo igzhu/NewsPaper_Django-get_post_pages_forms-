@@ -24,9 +24,14 @@
                         <li class="nav-item"><a class="nav-link" href="/policy/">Policy</a></li>
                         <li class="nav-item"><a class="nav-link" href="/contacts/">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" href="/authorized_only/">Registered only</a></li>
+
                         {% if request.user.is_authenticated %}
-                            <<li class="nav-item"><a class="nav-link" href="/accounts/logout/">Выйти</a></li>
+                            {% if is_not_premium %}
+                                 <li class="nav-item"><a class="nav-link" href="upgrade/"> Хочу Premium!</a></li>
+                            {% endif %}
+                            <li class="nav-item"><a class="nav-link" href="/accounts/logout/">Выйти</a></li>
                         {% endif %}
+
                     </ul>
                 </div>
             </div>

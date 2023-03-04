@@ -3,6 +3,9 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView, D
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required
+
 from django.conf import settings
 from django.shortcuts import redirect
 
@@ -25,7 +28,9 @@ class PostsList(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['form'] = PostForm()
+        context['is_not_premium'] = not self.request.user.groups.filter(name='authors').exists()
         return context
+
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -37,6 +42,11 @@ class PostsList(ListView):
 class PostDetails(DetailView):
     template_name = 'news/post_detail.html'
     queryset = Post.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_premium'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
 
 
 class PostSearch(ListView):
@@ -51,6 +61,7 @@ class PostSearch(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['authors'] = User.objects.all()
+        #context['is_not_premium'] = not self.request.user.groups.filter(name='authors').exists()
         context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
@@ -59,6 +70,11 @@ class PostAdd(LoginRequiredMixin, CreateView):
     template_name = 'news/post_add.html'
     #context_object_name = 'posts'
     form_class = PostForm
+
+    #def get_context_data(self, **kwargs):
+    #    context = super().get_context_data(**kwargs)
+    #    context['is_not_premium'] = not self.request.user.groups.filter(name='authors').exists()
+    #    return context
 
 class PostEdit(LoginRequiredMixin, UpdateView):
     template_name = 'news/post_add.html'
@@ -69,7 +85,27 @@ class PostEdit(LoginRequiredMixin, UpdateView):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
 
+    #def get_context_data(self, **kwargs):
+    #    context = super().get_context_data(**kwargs)
+    #    context['is_not_premium'] = not self.request.user.groups.filter(name='authors').exists()
+    #    return context
+
 class PostDelete(LoginRequiredMixin, DeleteView):
     template_name = 'news/post_delete.html'
     queryset = Post.objects.all()
     success_url = '/posts/'
+
+    #def get_context_data(self, **kwargs):
+    #    context = super().get_context_data(**kwargs)
+    #    context['is_not_premium'] = not self.request.user.groups.filter(name='authors').exists()
+    #    return context
+
+
+
+@login_required
+def upgrade_me_to_author(request):
+    user = request.user
+    premium_group = Group.objects.get(name='authors')
+    if not request.user.groups.filter(name='authors').exists():
+        premium_group.user_set.add(user)
+    return redirect('/posts/')
