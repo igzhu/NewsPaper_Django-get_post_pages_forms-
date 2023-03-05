@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.core.paginator import Paginator
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
@@ -66,7 +66,8 @@ class PostSearch(ListView):
         return context
 
 
-class PostAdd(LoginRequiredMixin, CreateView):
+class PostAdd(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_post',)
     template_name = 'news/post_add.html'
     #context_object_name = 'posts'
     form_class = PostForm
@@ -76,7 +77,8 @@ class PostAdd(LoginRequiredMixin, CreateView):
     #    context['is_not_premium'] = not self.request.user.groups.filter(name='authors').exists()
     #    return context
 
-class PostEdit(LoginRequiredMixin, UpdateView):
+class PostEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     template_name = 'news/post_add.html'
     form_class = PostForm
     #login_url = '/login/'
